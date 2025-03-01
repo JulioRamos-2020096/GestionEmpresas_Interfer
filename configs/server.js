@@ -6,6 +6,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import { dbConnection } from "./mongo.js";
 import apiLimiter from "../src/middlewares/rate-limit-validator.js";
+import companyRoutes from "../src/company/company.routes.js";
 
 const middlewares = (app) => {
     app.use(express.urlencoded({ extended: false }));
@@ -17,7 +18,7 @@ const middlewares = (app) => {
 };
 
 const routes = (app) => {
-
+    app.use("/api/company", companyRoutes);
 };
 
 const conectarDB = async () => {
@@ -37,7 +38,7 @@ export const initServer = () => {
         routes(app);
         const port = process.env.PORT || 3006;
         app.listen(port, () => {
-            console.log(`Server running on port ${port} hause`);
+            console.log(`Server running on port ${port}`);
         });
     } catch (err) {
         console.log(`Server init failed: ${err}`);
